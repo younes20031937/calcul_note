@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcul de la Note Finale</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            transition: background-color 0.3s, color 0.3s;
+            background-color: #f0f0f0;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+            width: 300px;
+        }
+        .container input, .container button {
+            font-size: 16px;
+            margin: 10px 0;
+            padding: 10px;
+            width: calc(100% - 22px);
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .container input:focus {
+            border-color: #007bff;
+            outline: none;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+        }
+        .container button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .container button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .toggle-mode {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: #f0f0f0;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .toggle-mode:hover {
+            background-color: #e0e0e0;
+        }
+        .dark-mode {
+            background-color: #333;
+            color: #f0f0f0;
+        }
+        .dark-mode .container {
+            background-color: #444;
+            color: #f0f0f0;
+        }
+        .dark-mode .container input {
+            background-color: #555;
+            border: 1px solid #666;
+            color: #f0f0f0;
+        }
+        .dark-mode .container button {
+            background-color: #007bff;
+        }
+        .dark-mode .container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <button class="toggle-mode" onclick="toggleMode()">Mode Sombre</button>
+    <div class="container">
+        <h2>Calcul de la Note Finale</h2>
+        <label for="annee1">Note 1ère année (/20):</label>
+        <input type="number" id="annee1">
+        
+        <label for="annee2">Note 2ème année (/20):</label>
+        <input type="number" id="annee2">
+        
+        <label for="eff">Note EFF (/100):</label>
+        <input type="number" id="eff">
+        
+        <button onclick="calculerNoteFinale()">Calculer</button>
+        <div class="result" id="resultat">Note Finale: </div>
+    </div>
+
+    <script>
+        function calculerNoteFinale() {
+            const annee1 = parseFloat(document.getElementById('annee1').value);
+            const annee2 = parseFloat(document.getElementById('annee2').value);
+            const eff = parseFloat(document.getElementById('eff').value);
+
+            if (isNaN(annee1) || isNaN(annee2) || isNaN(eff)) {
+                document.getElementById('resultat').textContent = 'Entrée invalide, veuillez entrer des nombres.';
+                return;
+            }
+
+            const effConverted = eff / 100 * 20;
+            const noteFinale = (annee1 * 0.1) + (annee2 * 0.3) + (effConverted * 0.6);
+            document.getElementById('resultat').textContent = `Note Finale: ${noteFinale.toFixed(2)}`;
+        }
+
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                calculerNoteFinale();
+            }
+        });
+
+        function toggleMode() {
+            document.body.classList.toggle('dark-mode');
+            const toggleButton = document.querySelector('.toggle-mode');
+            if (document.body.classList.contains('dark-mode')) {
+                toggleButton.textContent = 'Mode Clair';
+            } else {
+                toggleButton.textContent = 'Mode Sombre';
+            }
+        }
+    </script>
+</body>
+</html>
